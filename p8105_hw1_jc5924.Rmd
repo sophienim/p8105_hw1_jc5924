@@ -1,0 +1,84 @@
+---
+title: "p8105_hw1_jc5924"
+output: github_document
+name: Sophie Chen
+---
+
+```{r}
+library(tidyverse)
+```
+
+# Problem 1
+### Download the package and include a summary of the dataset
+```{r penguins_summary}
+data("penguins", package = "palmerpenguins")
+names(penguins)
+summary(penguins)
+```
+
+### Short description of the dataset
+
+* There are total of 8 varibles in the dataset that are `r names(penguins)`.
+* There are total of `r nrow(penguins)` rows and `r ncol(penguins)` columns.
+* The mean flipper length is equal to `r mean(penguins$flipper_length_mm, na.rm=TRUE)` mm.
+
+### Scatterplot
+
+```{r penguins_scatterplot}
+penguins_df=
+  tibble(
+    x=penguins$bill_length_mm,
+    y=penguins$flipper_length_mm,
+    species=penguins$species
+  )
+ggplot(penguins_df,aes(x=x,y=y,color=species))+geom_point()
+
+ggsave("penguins_df_scatterplot.pdf")
+```
+
+# Problem 2
+
+### Create a data frame
+```{r create_dataframe}
+df_2=tibble(
+    norm=rnorm(n=10,mean =0, sd=1),
+    logical=norm>0,
+    char=c("One","Two","Three","Four","Five","Six","Seven","Eight", "Nine","Ten"),
+    fac_norm=factor(c("Low","Medium","High","Low","Medium","High","High", "Medium","Low","High"))
+)
+print(df_2)
+```
+
+### Take the means of each variable
+```{r take_mean}
+mean(df_2$norm)
+mean(df_2$logical)
+mean(df_2$char)
+mean(df_2$fac_norm)
+```
+* We can take the means of numeric and logical variables; however, the means of character and factor vectors cannot be taken.
+
+### Convert the varibles
+```{r convert_varibles, eval=FALSE}
+logical_num=as.numeric(pull(df_2,logical))
+char_num=as.numeric(pull(df_2,char),na.omit(char))
+fac_num=as.numeric(pull(df_2,fac_norm))
+mean(logical_num)
+mean(char_num)
+mean(fac_num)
+```
+
+* After converting the logical, character and factor variables from their own types to the numeric type, it is possible to find the means of logical variable and factor variable. However, converting the character variable to numeric varible seems not possible, shown like 'NAs introduced by cpercion', even though I add 'na.omit' as a argument. Logical and factor variables can be converted to numbers because the logical variable is either 'TRUE' or 'FALSE' and that can be converted to '1' or '0', and there are three levels for the factor variable which can be converted to '1','2' and '3'. However, character variable cannot do that.
+
+
+
+
+
+
+
+
+
+
+
+
+
